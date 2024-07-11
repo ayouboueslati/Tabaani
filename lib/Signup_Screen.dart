@@ -17,6 +17,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _hasUppercase = false;
   bool _hasSymbol = false;
 
+  // Focus nodes for each text field
+  FocusNode _emailFocus = FocusNode();
+  FocusNode _passwordFocus = FocusNode();
+  FocusNode _confirmPasswordFocus = FocusNode();
+
+  @override
+  void dispose() {
+    _emailFocus.dispose();
+    _passwordFocus.dispose();
+    _confirmPasswordFocus.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,9 +70,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 32.0),
                 TextFormField(
                   controller: _emailController,
+                  focusNode: _emailFocus,
                   decoration: InputDecoration(
                     labelText: 'Email',
                     border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.yellow.shade700),
+                    ),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
@@ -72,9 +89,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 16.0),
                 TextFormField(
                   controller: _passwordController,
+                  focusNode: _passwordFocus,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.yellow.shade700),
+                    ),
                   ),
                   obscureText: true,
                   onChanged: _updatePasswordStrength,
@@ -90,9 +111,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 8.0), // Additional space for layout
                 TextFormField(
                   controller: _confirmPasswordController,
+                  focusNode: _confirmPasswordFocus,
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
                     border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.yellow.shade700),
+                    ),
                   ),
                   obscureText: true,
                   validator: (value) {
@@ -136,6 +161,82 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       color: Colors.blue,
                       fontSize: 16.0,
                     ),
+                  ),
+                ),
+                SizedBox(height: 16.0), // Space below the sign-in text button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      margin: EdgeInsets.symmetric(vertical: 8.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Sign up with Facebook logic here
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue.shade900,
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          textStyle: TextStyle(fontSize: 18.0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.facebook, color: Colors.white),
+                            SizedBox(width: 8.0),
+                            Text(
+                              'Facebook',
+                              style: TextStyle(fontSize: 18.0, color: Colors.white), // Text color set to white
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      margin: EdgeInsets.symmetric(vertical: 8.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Sign up with Google logic here
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          textStyle: TextStyle(fontSize: 18.0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.android, color: Colors.white),
+                            SizedBox(width: 8.0),
+                            Text(
+                              'Google',
+                              style: TextStyle(fontSize: 18.0, color: Colors.white), // Text color set to white
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.0), // Space below the social buttons
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Text(
+                    'Copyright © Tabaani 2024',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14.0,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ],
