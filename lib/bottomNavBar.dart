@@ -1,5 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:tabaani/home.dart';
+import 'package:tabaani/profile.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -21,33 +23,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   final PageStorageBucket bucket = PageStorageBucket();
 
-  final List<Widget> _widgetOptions = [
-    Container(
-      color: Colors.blue,
-      child: Center(
-        child: Icon(Icons.search, size: 64.0, color: Colors.white),
-      ),
-    ),
-    Container(
-      color: Colors.red,
-      child: Center(
-        child: Icon(Icons.favorite, size: 64.0, color: Colors.white),
-      ),
-    ),
-    Container(
-      color: Colors.green,
-      child: Center(
-        child: Icon(Icons.chat_bubble_outline, size: 64.0, color: Colors.white),
-      ),
-    ),
-    Container(
-      color: Colors.orange,
-      child: Center(
-        child:
-            Icon(Icons.account_circle_rounded, size: 64.0, color: Colors.white),
-      ),
-    ),
-  ];
+  late final List<Widget> _widgetOptions;
+
+  @override
+  void initState() {
+    super.initState();
+    _widgetOptions = <Widget>[
+      HomeScreen(),
+      ProfileScreen(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {

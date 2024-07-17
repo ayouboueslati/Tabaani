@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tabaani/bottomNavBar.dart';
 
 class SigninScreen extends StatefulWidget {
   static const String id = 'signin_screen';

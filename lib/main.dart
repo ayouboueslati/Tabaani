@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.yellow,
       ),
-      initialRoute: SigninScreen.id,
+      initialRoute: SignUpScreen.id,
       routes: {
         SigninScreen.id: (context) => SigninScreen(
               onLoginPressed: () {
