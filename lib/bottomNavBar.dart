@@ -14,9 +14,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   final List<IconData> iconList = [
     Icons.search,
-    Icons.favorite,
+    Icons.favorite_outline,
     Icons.chat_bubble_outline,
-    Icons.account_circle_rounded
+    Icons.account_circle_outlined
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -31,7 +31,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     Container(
       color: Colors.red,
       child: Center(
-        child: Icon(Icons.favorite, size: 64.0, color: Colors.white),
+        child: Icon(Icons.favorite_outline, size: 64.0, color: Colors.white),
       ),
     ),
     Container(
@@ -63,12 +63,43 @@ class _BottomNavBarState extends State<BottomNavBar> {
         child: _widgetOptions[_bottomNavIndex],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
         child: Image.asset('assets/tabaani.jpg', width: 24.0, height: 24.0),
-        onPressed: () {},
+        onPressed: () {
+          _onItemTapped(2); // Select the middle item when the button is pressed
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: AnimatedBottomNavigationBar(
-        icons: iconList,
+      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+        itemCount: iconList.length,
+        tabBuilder: (int index, bool isActive) {
+          final color = isActive ? Colors.amber : Colors.grey;
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(iconList[index], size: 24, color: color),
+              const SizedBox(height: 4),
+              Text(
+                index == 0
+                    ? 'Explore'
+                    : index == 1
+                        ? 'Saved'
+                        : index == 2
+                            ? 'Inbox'
+                            : index == 3
+                                ? 'Profile'
+                                : 'Profile',
+                style: TextStyle(
+                  color: color,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            ],
+          );
+        },
+        backgroundColor: Colors.white,
         activeIndex: _bottomNavIndex,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.verySmoothEdge,
