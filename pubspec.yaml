@@ -66,7 +66,18 @@ flutter:
     - assets/alexadria.jpg
     - assets/casa.jpg
     - assets/dubai.jpg
+    - assets/ayoub.jpg
+    - assets/fares.jpg
+    - assets/bechir.jpg
+    - assets/khalil.jpg
+    - assets/family_friendly.jpg
+    - assets/walk.jpg
+    - assets/road.jfif
+    - assets/food.jpg
+    - assets/bike.jfif
+    - assets/night.jpg
 
+  
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

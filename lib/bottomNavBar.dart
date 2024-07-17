@@ -34,6 +34,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
     ];
   }
 
+  final List<String> titles = [
+    'Profile',
+    'Training Schedule',
+  ];
+
   void _onItemTapped(int index) {
     setState(() {
       _bottomNavIndex = index;
