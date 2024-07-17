@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:tabaani/chat.dart';
 import 'package:tabaani/home.dart';
 import 'package:tabaani/profile.dart';
 
@@ -31,8 +32,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
     _widgetOptions = <Widget>[
       HomeScreen(),
       PlaceholderWidget(color: Colors.red), // Placeholder for second tab
-      PlaceholderWidget(color: Colors.blue), // Placeholder for third tab
+      MessageListScreen(),// Placeholder for third tab
       ProfileScreen(),
+      
     ];
   }
 

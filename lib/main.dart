@@ -4,6 +4,7 @@ import 'package:tabaani/bottomNavBar.dart';
 import 'package:tabaani/signin_Screen.dart';
 import 'package:tabaani/home.dart';
 import 'package:tabaani/profile.dart';
+import 'package:tabaani/chat.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         BottomNavBar.id: (context) => BottomNavBar(),
         HomeScreen.id: (context) => HomeScreen(),
         ProfileScreen.id: (context) => ProfileScreen(),
+        MessageListScreen.id: (context) => MessageListScreen(),
       },
       onGenerateRoute: (settings) {
         // Handle unknown routes
