@@ -3,9 +3,10 @@ import 'package:tabaani/bottomNavBar.dart';
 
 class SigninScreen extends StatefulWidget {
   static const String id = 'signin_screen';
+  final VoidCallback onLoginPressed;
+
   SigninScreen({Key? key, required this.onLoginPressed}) : super(key: key);
 
-  final VoidCallback onLoginPressed;
   @override
   State<SigninScreen> createState() => _SigninScreenState();
 }
@@ -114,26 +115,31 @@ class _SigninScreenState extends State<SigninScreen> {
                 SizedBox(height: 8.0), // Additional space for layout
 
                 SizedBox(height: 32.0),
-                SizedBox(
-                  width: double.infinity,
-                  child: GestureDetector(
-                    onTap: () async {
-                      setState(() {
-                        _saving = true;
-                      });
-                      await Future.delayed(const Duration(seconds: 2));
-                      setState(() {
-                        _saving = false;
-                      });
-                      Navigator.pushReplacementNamed(context, BottomNavBar.id);
-                    },
-                    // style: ElevatedButton.styleFrom(
-                    //   foregroundColor: Colors.black,
-                    //   backgroundColor: Colors.yellow,
-                    //   padding: EdgeInsets.symmetric(vertical: 16.0),
-                    //   textStyle: TextStyle(fontSize: 18.0),
-                    // ),
-                    child: Text('Sign In'),
+                GestureDetector(
+                  onTap: () async {
+                    setState(() {
+                      _saving = true;
+                    });
+                    await Future.delayed(const Duration(seconds: 2));
+                    setState(() {
+                      _saving = false;
+                    });
+                    widget.onLoginPressed();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.yellow,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Sign In',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 16.0), // Space below the sign-up button
