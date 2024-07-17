@@ -30,19 +30,25 @@ class _BottomNavBarState extends State<BottomNavBar> {
     super.initState();
     _widgetOptions = <Widget>[
       HomeScreen(),
+      PlaceholderWidget(color: Colors.red), // Placeholder for second tab
+      PlaceholderWidget(color: Colors.blue), // Placeholder for third tab
       ProfileScreen(),
     ];
   }
 
   final List<String> titles = [
+    'Home',
+    'Favorites',
+    'Messages',
     'Profile',
-    'Training Schedule',
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _bottomNavIndex = index;
-    });
+    if (index < _widgetOptions.length) {
+      setState(() {
+        _bottomNavIndex = index;
+      });
+    }
   }
 
   @override
@@ -66,6 +72,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
         rightCornerRadius: 32,
         onTap: _onItemTapped,
       ),
+    );
+  }
+}
+
+class PlaceholderWidget extends StatelessWidget {
+  final Color color;
+
+  const PlaceholderWidget({Key? key, required this.color}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color,
     );
   }
 }
