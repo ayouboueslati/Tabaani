@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:tabaani/signin_Screen.dart';
+import 'package:tabaani/bottomNavBar.dart';
 
-class SignUpScreen extends StatefulWidget {
-  static const String id = 'signup_screen';
-  const SignUpScreen({super.key});
+class SigninScreen extends StatefulWidget {
+  static const String id = 'signin_screen';
+  SigninScreen({Key? key, required this.onLoginPressed}) : super(key: key);
+
+  final VoidCallback onLoginPressed;
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  State<SigninScreen> createState() => _SigninScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SigninScreenState extends State<SigninScreen> {
+  bool _saving = false;
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
 
   // Variables to track password strength criteria
   bool _hasNumber = false;
@@ -23,13 +25,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   // Focus nodes for each text field
   FocusNode _emailFocus = FocusNode();
   FocusNode _passwordFocus = FocusNode();
-  FocusNode _confirmPasswordFocus = FocusNode();
 
   @override
   void dispose() {
     _emailFocus.dispose();
     _passwordFocus.dispose();
-    _confirmPasswordFocus.dispose();
     super.dispose();
   }
 
@@ -112,60 +112,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 8.0), // Space for password strength indicator
                 _buildPasswordStrengthIndicator(), // Display password strength indicator
                 SizedBox(height: 8.0), // Additional space for layout
-                TextFormField(
-                  controller: _confirmPasswordController,
-                  focusNode: _confirmPasswordFocus,
-                  decoration: InputDecoration(
-                    labelText: 'Confirm Password',
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.yellow.shade700),
-                    ),
-                  ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
-                    } else if (value != _passwordController.text) {
-                      return 'Passwords do not match';
-                    }
-                    return null;
-                  },
-                ),
+
                 SizedBox(height: 32.0),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Sign up logic here
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Signing Up')),
-                        );
-                      }
+                  child: GestureDetector(
+                    onTap: () async {
+                      setState(() {
+                        _saving = true;
+                      });
+                      await Future.delayed(const Duration(seconds: 2));
+                      setState(() {
+                        _saving = false;
+                      });
+                      Navigator.pushReplacementNamed(context, BottomNavBar.id);
                     },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.yellow,
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
-                      textStyle: TextStyle(fontSize: 18.0),
-                    ),
-                    child: Text('Sign Up'),
+                    // style: ElevatedButton.styleFrom(
+                    //   foregroundColor: Colors.black,
+                    //   backgroundColor: Colors.yellow,
+                    //   padding: EdgeInsets.symmetric(vertical: 16.0),
+                    //   textStyle: TextStyle(fontSize: 18.0),
+                    // ),
+                    child: Text('Sign In'),
                   ),
                 ),
                 SizedBox(height: 16.0), // Space below the sign-up button
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, SigninScreen.id);
-                  },
-                  child: Text(
-                    'Already have an account? Sign In',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ),
+
                 SizedBox(height: 16.0), // Space below the sign-in text button
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
