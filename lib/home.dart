@@ -296,63 +296,71 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 16.0),
                   Container(
-                    height: 200.0, // Adjust the height as needed
-                    child: PageView.builder(
-                      controller: _pageController,
-                      itemCount: destinations.length + 1, // +1 for looping
+                    height: 100.0,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: destinations.length,
                       itemBuilder: (context, index) {
-                        final destinationIndex = index % destinations.length;
-                        if (index == destinations.length) {
-                          return SizedBox
-                              .shrink(); // Last item is a duplicate of the first
-                        } else {
-                          final destination = destinations[destinationIndex];
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DestinationDetails(
-                                    imagePath: destination['image']!,
-                                    destinationName: destination['name']!,
+                        final destination = destinations[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DestinationDetails(
+                                  imagePath: destination['image']!,
+                                  destinationName: destination['name']!,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 8.0),
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.asset(
+                                    destination['image']!,
+                                    width: 240.0,
+                                    height: 200.0,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              );
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 8.0),
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.asset(
-                                      destination['image']!,
-                                      width: 240.0,
-                                      fit: BoxFit.cover,
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: Container(
+                                    height: 50.0,
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(8.0),
+                                        bottomRight: Radius.circular(8.0),
+                                      ),
                                     ),
-                                  ),
-                                  Positioned(
-                                    bottom: 8.0,
-                                    left: 8.0,
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 8.0, vertical: 4.0),
-                                      color: Colors.black.withOpacity(0.6),
-                                      child: Text(
-                                        destination['name']!,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16.0,
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 20.0),
+                                        child: Text(
+                                          destination['name']!,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 26.0,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          );
-                        }
+                          ),
+                        );
                       },
                     ),
                   ),
