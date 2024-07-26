@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tabaani/destination_details.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -314,11 +315,28 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Explore Our Destinations',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Discover New Destinations and cities with ',
+                          style: GoogleFonts.roboto(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'Tabaani',
+                          style: GoogleFonts.pacifico(
+                            textStyle: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 16.0),
@@ -422,7 +440,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Text(
               'Meet Our Ambassadors:',
-              style: TextStyle(
+              style: GoogleFonts.roboto(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
               ),
