@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tabaani/ExploreDetailScreen.dart';
 import 'package:tabaani/destination_details.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late PageController _pageController;
   late PageController _destinationPageController;
+  late PageController _explorePageController;
   late Timer _timer;
   int _currentPage = 0;
 
@@ -29,15 +30,22 @@ class _HomeScreenState extends State<HomeScreen> {
       initialPage: 0,
       viewportFraction: 0.8,
     );
+    _explorePageController = PageController(
+      initialPage: 0,
+    );
 
     _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
-      if (_currentPage < destinations.length - 1) {
-        _currentPage++;
+      if (_currentPage < exploreItems.length - 1) {
+        setState(() {
+          _currentPage++;
+        });
       } else {
-        _currentPage = 0;
+        setState(() {
+          _currentPage = 0;
+        });
       }
 
-      _destinationPageController.animateToPage(
+      _explorePageController.animateToPage(
         _currentPage,
         duration: Duration(milliseconds: 300),
         curve: Curves.easeIn,
@@ -49,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     _pageController.dispose();
     _destinationPageController.dispose();
+    _explorePageController.dispose();
     _timer.cancel();
     super.dispose();
   }
@@ -57,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _dateController = TextEditingController();
   int _adults = 1;
 
-// List of destinations with names
+  // List of destinations with names
   final List<Map<String, String>> destinations = [
     {'image': 'assets/tunis.jfif', 'name': 'Tunis'},
     {'image': 'assets/tozeur.jpg', 'name': 'Tozeur'},
@@ -94,22 +103,72 @@ class _HomeScreenState extends State<HomeScreen> {
     ExploreItem(
       image: 'assets/family_friendly.jpg',
       label: 'Family Friendly',
+      description:
+          'Family-friendly tours are designed to cater to the needs of families, offering activities and attractions suitable for all ages.',
+      topActivities: [
+        {
+          'name': 'Visit amusement parks',
+          'image': 'assets/amusement_park.jpeg'
+        },
+        {'name': 'Explore zoos and aquariums', 'image': 'assets/zoo.webp'},
+        {
+          'name': 'Enjoy family-friendly shows and entertainment',
+          'image': 'assets/show.jpeg'
+        },
+      ],
     ),
     ExploreItem(
       image: 'assets/walk.jpg',
       label: 'Walking Tours',
+      description:
+          'Walking tours allow you to explore the city on foot, offering an immersive experience of the local culture and attractions.',
+      topActivities: [
+        {'name': 'City sightseeing', 'image': 'assets/city_sightseeing.jpeg'},
+        {'name': 'Historical tours', 'image': 'assets/historical_tour.jpeg'},
+        {
+          'name': 'Cultural walking experiences',
+          'image': 'assets/cultural_walk.jpeg'
+        },
+      ],
     ),
     ExploreItem(
       image: 'assets/road.jfif',
       label: 'Road Trip',
+      description:
+          'Road trips offer a sense of freedom and adventure, allowing you to explore various destinations at your own pace.',
+      topActivities: [
+        {'name': 'Scenic drives', 'image': 'assets/scenic_drive.jpg'},
+        {'name': 'National park visits', 'image': 'assets/national_park.jpg'},
+        {
+          'name': 'Roadside attractions',
+          'image': 'assets/roadside_attraction.jpg'
+        },
+      ],
     ),
     ExploreItem(
       image: 'assets/bike.jfif',
       label: 'Bike Tour',
+      description:
+          'Bike tours are a great choice for those who want to stay active while exploring new destinations.',
+      topActivities: [
+        {'name': 'Mountain biking', 'image': 'assets/mountain_biking.jpg'},
+        {'name': 'City bike tours', 'image': 'assets/city_bike_tour.jpg'},
+        {
+          'name': 'Countryside cycling',
+          'image': 'assets/countryside_cycling.jpg'
+        },
+      ],
     ),
     ExploreItem(
       image: 'assets/night.jpg',
       label: 'Night Life',
+      description:
+          'Experience the vibrant nightlife of the city, with activities and entertainment that come alive after dark.',
+      topActivities: [
+        {'name': 'Bar hopping', 'image': 'assets/bar_hopping.jpg'},
+        {'name': 'Night clubs', 'image': 'assets/night_club.jpg'},
+        {'name': 'Live music events', 'image': 'assets/live_music.jpg'},
+      ],
     ),
   ];
 
@@ -570,7 +629,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   TextSpan(
                     text: 'Explore with ',
                     style: GoogleFonts.roboto(
-                      fontSize: 20.0,
+                      fontSize: 24.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -579,7 +638,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     text: 'Tabaani',
                     style: GoogleFonts.pacifico(
                       textStyle: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 24.0,
                         fontWeight: FontWeight.normal,
                         color: Colors.black,
                       ),
@@ -590,36 +649,54 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 20.0),
             Container(
-              height: 180.0,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
+              height: 150.0,
+              width: double.infinity,
+              child: PageView.builder(
+                controller: _explorePageController,
                 itemCount: exploreItems.length,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12.0),
-                          child: Image.asset(
-                            exploreItems[index].image,
-                            width: 200.0,
-                            height: 120.0,
-                            fit: BoxFit.cover,
+                  final exploreItem = exploreItems[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ExploreDetailScreen(
+                            imagePath: exploreItem.image,
+                            label: exploreItem.label,
+                            description: exploreItem.description,
+                            topActivities: exploreItem.topActivities,
                           ),
                         ),
-                        SizedBox(height: 8.0),
-                        Text(
-                          exploreItems[index].label,
-                          style: GoogleFonts.roboto(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black87,
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12.0),
+                            child: Image.asset(
+                              exploreItem.image,
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                          Positioned(
+                            bottom: 16.0,
+                            left: 16.0,
+                            child: Text(
+                              exploreItem.label,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -726,8 +803,15 @@ class ExperienceRow extends StatelessWidget {
 class ExploreItem {
   final String image;
   final String label;
+  final String description;
+  final List<Map<String, String>> topActivities;
 
-  ExploreItem({required this.image, required this.label});
+  ExploreItem({
+    required this.image,
+    required this.label,
+    required this.description,
+    required this.topActivities,
+  });
 }
 
 class Ambassador {
