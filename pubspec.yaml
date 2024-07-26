@@ -38,6 +38,7 @@ dependencies:
   animated_bottom_navigation_bar: ^1.3.3
   google_fonts: ^6.2.1
   flutter_svg: ^2.0.10+1
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +80,12 @@ flutter:
     - assets/bike.jfif
     - assets/night.jpg
     - assets/medal.svg
+    - assets/1.png
+    - assets/2.png
+    - assets/3.png
+    - assets/4.png
+    - assets/5.png
+    - assets/6.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
