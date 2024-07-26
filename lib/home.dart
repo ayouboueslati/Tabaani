@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tabaani/destination_details.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'home_screen';
@@ -29,14 +30,14 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _dateController = TextEditingController();
   int _adults = 1;
 
-  // List of destinations
-  final List<String> destinations = [
-    'assets/tunis.jfif',
-    'assets/tozeur.jpg',
-    'assets/petra.jpg',
-    'assets/alexadria.jpg',
-    'assets/casa.jpg',
-    'assets/dubai.jpg',
+// List of destinations with names
+  final List<Map<String, String>> destinations = [
+    {'image': 'assets/tunis.jfif', 'name': 'Tunis'},
+    {'image': 'assets/tozeur.jpg', 'name': 'Tozeur'},
+    {'image': 'assets/petra.jpg', 'name': 'Petra'},
+    {'image': 'assets/alexadria.jpg', 'name': 'Alexandria'},
+    {'image': 'assets/casa.jpg', 'name': 'Casablanca'},
+    {'image': 'assets/dubai.jpg', 'name': 'Dubai'},
   ];
 
   // List of ambassadors
@@ -305,14 +306,49 @@ class _HomeScreenState extends State<HomeScreen> {
                           return SizedBox
                               .shrink(); // Last item is a duplicate of the first
                         } else {
-                          return Padding(
-                            padding: EdgeInsets.only(right: 8.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.asset(
-                                destinations[destinationIndex],
-                                width: 240.0,
-                                fit: BoxFit.cover,
+                          final destination = destinations[destinationIndex];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DestinationDetails(
+                                    imagePath: destination['image']!,
+                                    destinationName: destination['name']!,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 8.0),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.asset(
+                                      destination['image']!,
+                                      width: 240.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 8.0,
+                                    left: 8.0,
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 8.0, vertical: 4.0),
+                                      color: Colors.black.withOpacity(0.6),
+                                      child: Text(
+                                        destination['name']!,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           );
