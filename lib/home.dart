@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tabaani/ExploreDetailScreen.dart';
 import 'package:tabaani/destination_details.dart';
+import 'package:tabaani/profile.dart'; // Import the ProfileScreen
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'home_screen';
@@ -18,6 +19,9 @@ class _HomeScreenState extends State<HomeScreen> {
   late PageController _explorePageController;
   late Timer _timer;
   int _currentPage = 0;
+  TextEditingController _searchController = TextEditingController();
+  List<ExploreItem> _filteredExploreItems = [];
+  List<Map<String, String>> _filteredDestinations = [];
 
   @override
   void initState() {
@@ -51,6 +55,24 @@ class _HomeScreenState extends State<HomeScreen> {
         curve: Curves.easeIn,
       );
     });
+
+    _filteredExploreItems = exploreItems;
+
+    _searchController.addListener(_filterDestinations);
+  }
+
+  void _filterDestinations() {
+    setState(() {
+      if (_searchController.text.isEmpty) {
+        _filteredDestinations = [];
+      } else {
+        _filteredDestinations = destinations
+            .where((destination) => destination['name']!
+                .toLowerCase()
+                .contains(_searchController.text.toLowerCase()))
+            .toList();
+      }
+    });
   }
 
   @override
@@ -59,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _destinationPageController.dispose();
     _explorePageController.dispose();
     _timer.cancel();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -181,24 +204,63 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+                child: Stack(
+                  children: [
+                    TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText: 'Search experiences',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: EdgeInsets.all(0.0),
+                      ),
                     ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: EdgeInsets.all(0.0),
-                  ),
+                    if (_filteredDestinations.isNotEmpty)
+                      Positioned(
+                        top: 50.0,
+                        left: 0.0,
+                        right: 0.0,
+                        child: Container(
+                          color: Colors.white,
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: _filteredDestinations.map((destination) {
+                              return ListTile(
+                                title: Text(destination['name']!),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DestinationDetails(
+                                        imagePath: destination['image']!,
+                                        destinationName: destination['name']!,
+                                      ),
+                                    ),
+                                  );
+                                  _searchController.clear();
+                                },
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
             IconButton(
               icon: Icon(Icons.account_circle),
               onPressed: () {
-                // Handle profile action
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileScreen(),
+                  ),
+                );
               },
             ),
           ],
@@ -653,9 +715,9 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.infinity,
               child: PageView.builder(
                 controller: _explorePageController,
-                itemCount: exploreItems.length,
+                itemCount: _filteredExploreItems.length,
                 itemBuilder: (context, index) {
-                  final exploreItem = exploreItems[index];
+                  final exploreItem = _filteredExploreItems[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(

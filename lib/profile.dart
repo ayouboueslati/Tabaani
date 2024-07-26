@@ -23,6 +23,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Column(
         children: [
           Stack(
@@ -51,11 +56,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           SizedBox(height: 70), // Adjusted to account for the avatar position
           Text(
-            'Mohamed bechir Kefi',
+            'Mohamed Bechir Kefi',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           Text(
-            'description here.',
+            'Description here.',
             style: TextStyle(color: Colors.grey),
           ),
           SizedBox(height: 20),
