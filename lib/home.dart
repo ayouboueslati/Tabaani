@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tabaani/destination_details.dart';
 
@@ -177,7 +178,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
           // Form for Destination, Date, and People
           Card(
-            elevation: 4.0,
+            elevation: 0.0,
+            color: Colors.transparent,
             child: Padding(
               padding: EdgeInsets.all(16.0),
               child: Column(
@@ -226,46 +228,73 @@ class _HomeScreenState extends State<HomeScreen> {
                         // Implement search logic
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
+                        backgroundColor: Color.fromRGBO(202, 154, 22, 1.0),
                         padding: EdgeInsets.symmetric(horizontal: 32.0),
                       ),
-                      child: Text('Search'),
+                      child: Text(
+                        'Search',
+                        style: GoogleFonts.roboto(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 8.0),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'With Tabaani - Your safety is our priority',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(color: Colors.grey),
+                  SizedBox(height: 16.0),
+                  Center(
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'With ',
+                            style: GoogleFonts.roboto(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'Tabaani',
+                            style: GoogleFonts.pacifico(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' - Your safety is our priority',
+                            style: GoogleFonts.roboto(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-
-          SizedBox(height: 16.0),
-
-          SizedBox(height: 16.0),
-
+          Divider(color: Colors.black),
           // Card for Experiences
           Card(
-            elevation: 4.0,
+            elevation: 0.0,
+            color: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
             child: Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Our experiences',
-                    style: TextStyle(
-                      fontSize: 20.0,
+                    style: GoogleFonts.roboto(
+                      fontSize: 22.0,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black87,
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  SizedBox(height: 12.0),
+                  Divider(color: Colors.grey[300]),
                   ExperienceRow(
                     imagePath: 'assets/explore.jpg',
                     title: 'Private & Personal',
@@ -289,26 +318,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         'Experiences designed to take you away from the crowds towards authentic local spots.',
                     isImageRight: true,
                   ),
-                  SizedBox(height: 16.0),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Discover New Destinations and cities with Tabaani',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 20.0),
                 ],
               ),
             ),
           ),
-
+          Divider(color: Colors.black),
           // Explore Our Destinations Card
           Card(
-            elevation: 4.0,
-            color: const Color.fromARGB(255, 255, 250, 250),
+            elevation: 0.0,
+            color: Colors.transparent,
             shadowColor: Colors.transparent,
             child: Padding(
               padding: EdgeInsets.all(16.0),
@@ -415,13 +434,13 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           SizedBox(height: 16.0),
-
+          Divider(color: Colors.black),
           // Meet Our Ambassadors Card
           _buildAmbassadorsCard(),
 
           SizedBox(height: 16.0),
 
-          SizedBox(height: 16.0),
+          Divider(color: Colors.black),
 
           // Explore with Tabaani Card
           _buildExploreCard(),
@@ -432,72 +451,101 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildAmbassadorsCard() {
     return Card(
-      elevation: 4.0,
+      elevation: 0.0,
+      color: Colors.transparent,
       child: Padding(
         padding: EdgeInsets.all(13.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Meet Our Ambassadors:',
+              'Meet our ambassadors:',
               style: GoogleFonts.roboto(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
             ),
             SizedBox(height: 10.0),
             Text(
-              'Connect with our top-rated hosts all over the MENA region:',
-              style: TextStyle(color: Colors.grey),
+              'Connect with our Top rated Hosts all over the MENA Region:',
+              style: GoogleFonts.roboto(
+                fontSize: 16.0,
+                color: Colors.grey,
+              ),
             ),
             SizedBox(height: 16.0),
             Container(
-              height: 200.0, // Adjust the height as needed
+              height: 250.0, // Adjust the height as needed
               child: PageView.builder(
                 controller: _pageController,
-                itemCount: ambassadors.length + 1, // +1 for looping
+                itemCount: ambassadors.length, // Remove +1 for looping
                 itemBuilder: (context, index) {
-                  final ambassadorIndex = index % ambassadors.length;
-                  if (index == ambassadors.length) {
-                    return SizedBox
-                        .shrink(); // Last item is a duplicate of the first
-                  } else {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 40,
-                            backgroundImage:
-                                AssetImage(ambassadors[ambassadorIndex].image),
-                          ),
-                          SizedBox(height: 8.0),
-                          Text(
-                            ambassadors[ambassadorIndex].name,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            ambassadors[ambassadorIndex].destination,
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.star, color: Colors.amber, size: 16.0),
-                              SizedBox(width: 4.0),
-                              Text(
-                                ambassadors[ambassadorIndex].rating.toString(),
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                ),
+                  final ambassador = ambassadors[index];
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 70,
+                              backgroundImage: AssetImage(ambassador.image),
+                            ),
+                            SizedBox(height: 8.0),
+                            Text(
+                              ambassador.name,
+                              style: GoogleFonts.roboto(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
                               ),
-                            ],
+                            ),
+                            SizedBox(height: 4.0),
+                            SizedBox(height: 4.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.location_pin,
+                                    color: Colors.grey, size: 16.0),
+                                SizedBox(width: 4.0),
+                                Text(
+                                  ambassador.destination,
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 16.0,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                SizedBox(width: 14.0),
+                                Icon(Icons.star,
+                                    color: Colors.grey, size: 16.0),
+                                SizedBox(width: 4.0),
+                                Text(
+                                  ambassador.rating.toString(),
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 16.0,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8.0),
+                          ],
+                        ),
+                        Positioned(
+                          top: 110,
+                          right: 70,
+                          child: SvgPicture.asset(
+                            'assets/medal.svg',
+                            width: 32.0,
+                            height: 32.0,
                           ),
-                        ],
-                      ),
-                    );
-                  }
+                        ),
+                      ],
+                    ),
+                  );
                 },
               ),
             ),
@@ -509,42 +557,66 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildExploreCard() {
     return Card(
-      elevation: 4.0,
+      elevation: 0.0,
+      color: Colors.transparent,
       child: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Explore with Tabaani',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Explore with ',
+                    style: GoogleFonts.roboto(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Tabaani',
+                    style: GoogleFonts.pacifico(
+                      textStyle: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 30.0),
+            SizedBox(height: 20.0),
             Container(
-              height: 148.0, // Adjust the height as needed
+              height: 180.0,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: exploreItems.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.only(right: 8.0),
+                    padding: const EdgeInsets.only(right: 16.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(12.0),
                           child: Image.asset(
                             exploreItems[index].image,
-                            width: 324.0,
-                            height: 124.0,
+                            width: 200.0,
+                            height: 120.0,
                             fit: BoxFit.cover,
                           ),
                         ),
-                        SizedBox(height: 4.0),
+                        SizedBox(height: 8.0),
                         Text(
                           exploreItems[index].label,
+                          style: GoogleFonts.roboto(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black87,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ],
