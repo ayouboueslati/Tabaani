@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:tabaani/destination_details.dart';
 
@@ -10,19 +12,42 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late PageController _pageController;
+  late PageController _destinationPageController;
+  late Timer _timer;
+  int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(
       initialPage: 0,
-      viewportFraction: 0.8, // Adjust as needed
+      viewportFraction: 0.8,
     );
+    _destinationPageController = PageController(
+      initialPage: 0,
+      viewportFraction: 0.8,
+    );
+
+    _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      if (_currentPage < destinations.length - 1) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+
+      _destinationPageController.animateToPage(
+        _currentPage,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    });
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    _destinationPageController.dispose();
+    _timer.cancel();
     super.dispose();
   }
 
@@ -282,6 +307,8 @@ class _HomeScreenState extends State<HomeScreen> {
           // Explore Our Destinations Card
           Card(
             elevation: 4.0,
+            color: const Color.fromARGB(255, 255, 250, 250),
+            shadowColor: Colors.transparent,
             child: Padding(
               padding: EdgeInsets.all(16.0),
               child: Column(
@@ -296,9 +323,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 16.0),
                   Container(
-                    height: 100.0,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
+                    height: 120.0,
+                    child: PageView.builder(
+                      controller: _destinationPageController,
                       itemCount: destinations.length,
                       itemBuilder: (context, index) {
                         final destination = destinations[index];
